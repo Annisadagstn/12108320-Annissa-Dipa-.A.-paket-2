@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -14,11 +14,23 @@ use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class RegisteredUserController extends Controller
+class MakingUserController extends Controller
 {
     /**
      * Display the registration view.
      */
+    public function index()
+    {
+        return Inertia::render('User/Index', [
+            'users' => User::get(),
+        ]);
+    }
+    public function edit($id)
+    {
+        return Inertia::render('User/Edit', [
+            'users' => User::findOrFail($id),
+        ]);
+    }
     public function create(): Response
     {
         return Inertia::render('Auth/Register');
@@ -48,5 +60,14 @@ class RegisteredUserController extends Controller
         Auth::login($user);
 
         return redirect(RouteServiceProvider::HOME);
+    }
+
+    public function destroy($id)
+    {
+        $user = User::findOrFail($id);
+        $user->delete();
+        
+        return redirect()->back()->with('message', 'user Berhasil Dihapus');
+
     }
 }

@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\MakingUserController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -42,6 +44,13 @@ Route::middleware('auth')->group(function () {
     Route::put('/product/edit/{id}', [ProductController::class, 'update']);
     Route::get('/product/restock/{id}', [ProductController::class, 'getStock']);
     Route::put('/product/restock/{id}', [ProductController::class, 'reStock']);
+
+    Route::get('/user', [MakingUserController::class, 'index']);
+    Route::get('/user/create', [MakingUserController::class, 'create']);
+    Route::get('/user/edit/{id}', [MakingUserController::class, 'edit']);
+    Route::post('/user/create', [MakingUserController::class, 'store']);
+    Route::delete('/user/{id}', [MakingUserController::class, 'destroy']);
 });
+
 
 require __DIR__.'/auth.php';

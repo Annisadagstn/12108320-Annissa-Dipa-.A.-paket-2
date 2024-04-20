@@ -58,9 +58,9 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Product $product)
+    public function show(Product $product, $id)
     {
-        //
+       //
     }
 
     /**
@@ -71,6 +71,7 @@ class ProductController extends Controller
         return Inertia::render('Product/Edit', [
             'products' => Product::findOrFail($id)
         ]);
+
     }
 
     /**
@@ -121,6 +122,5 @@ class ProductController extends Controller
         ]);
     
         return redirect('/product')->with('message', 'stock berhasil diperbarui');
-
     }
 }

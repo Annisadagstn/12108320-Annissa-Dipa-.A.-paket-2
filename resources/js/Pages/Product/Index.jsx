@@ -29,16 +29,19 @@ export default function Index({ auth, products }) {
                                         <p>{product.price}</p>
                                         <p>{product.stock}</p>
                                     </div>
-                                    <div className='flex gap-[10px]'>
-                                        <Link href={`/product/edit/${product.id}`}>edit</Link>
-                                        <button onClick={() => handleDelete(product)}>delete</button>
-                                        <Link href={`/product/restock/${product.id}`}>restock</Link>
+                                    <div className='flex gap-4 items-center'>
+                                     <Link href={`/product/edit/${product.id}`} className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Edit</Link>
+                                     <button onClick={() => handleDelete(product)} className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600">Delete</button>
+                                     <Link href={`/product/restock/${product.id}`} className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">Restock</Link>
+                                     <Link href={`/product/payment/${product.id}`} className="bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600">Payment</Link>
+
                                     </div>
+
                                 </div>
                             )
                         })
                     ):(
-                        <div>no data masee</div>
+                        <div>no data</div>
                     )}
                 </div>
             </div>

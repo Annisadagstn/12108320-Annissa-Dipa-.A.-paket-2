@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Payment;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -86,9 +87,9 @@ class ProductController extends Controller
             'stock' => 'required',
             'image' => 'required',
         ]);
-    
+
         $product->update($data);
-    
+
         return redirect('/product')->with('message', 'Product Berhasil Diupdate');
     }
 
@@ -99,7 +100,7 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($id);
         $product->delete();
-        
+
         return redirect()->back()->with('message', 'Product Berhasil Dihapus');
 
     }
@@ -111,16 +112,35 @@ class ProductController extends Controller
             'stock.required' => 'stock tidak boleh kosong',
             'stock.min' => 'stock tidak boleh 0'
         ]);
-    
+
         $product = Product::findOrFail($id);
         $currentstock = $product->stock;
-    
+
         $newstock = $currentstock + $request->stock;
-        
+
         $product->update([
             'stock' => $newstock,
         ]);
-    
+
         return redirect('/product')->with('message', 'stock berhasil diperbarui');
+    }
+
+    public function processPayment(Request $request)
+    {
+        // Validasi input
+        $request->validate([
+            'amount' => 'required|numeric|min:0',
+            // Tambahkan validasi lain sesuai kebutuhan
+        ]);
+
+        // Proses pembayaran
+        $payment = new Payment();
+        $payment->amount = $request->amount;
+        $payment->user_id = auth()->id();
+        // Set status pembayaran sesuai kebutuhan
+        $payment->status = 'pending';
+        $payment->save();
+
+        // Redirect atau tampilkan respons sesuai kebutuhan
     }
 }

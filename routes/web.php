@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\MakingUserController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Foundation\Application;
@@ -44,12 +45,20 @@ Route::middleware('auth')->group(function () {
     Route::put('/product/edit/{id}', [ProductController::class, 'update']);
     Route::get('/product/restock/{id}', [ProductController::class, 'getStock']);
     Route::put('/product/restock/{id}', [ProductController::class, 'reStock']);
+    Route::post('/product/payment', [ProductController::class, 'processPayment'])->name('product.payment');
 
     Route::get('/user', [MakingUserController::class, 'index']);
     Route::get('/user/create', [MakingUserController::class, 'create']);
     Route::get('/user/edit/{id}', [MakingUserController::class, 'edit']);
     Route::post('/user/create', [MakingUserController::class, 'store']);
     Route::delete('/user/{id}', [MakingUserController::class, 'destroy']);
+
+    Route::get('/payment/create', [PaymentController::class, 'create'])->name('payment.create');
+    Route::post('/payment/store', [PaymentController::class, 'store'])->name('payment.store');
+    Route::get('/payment/success', [PaymentController::class, 'success'])->name('payment.success');
+    Route::get('/payment/cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');
+    Route::get('/product/payment/{id}', [ProductController::class, 'processPayment']);
+    Route::put('/product/payment/{id}', [ProductController::class, 'payment']);
 });
 
 
